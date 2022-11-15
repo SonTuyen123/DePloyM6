@@ -163,6 +163,14 @@ export class UserController {
 
     let uerMember = await Users.findOne({ email: emailMember });
     let arr = [];
+    for (let index = 0; index < uerMember.listIdWorkSpace.length; index++) {
+      let user = await WorkSpace.findOne({
+        _id: uerMember.listIdWorkSpace[index],
+      }).select("name");
+      if (user) {
+        arr.push(user);
+      }
+    }
 
     if (uerMember.listIdWorkSpace.length > 0) {
       console.log(1);
@@ -170,11 +178,15 @@ export class UserController {
         let user = await WorkSpace.findOne({
           _id: uerMember.listIdWorkSpace[index],
         });
-        console.log(
-          "🚀 ~ file: user.controller.ts ~ line 172 ~ UserController ~ sendEmail ~ user",
-          user
-        );
-        if (user && user.name === data.name) {
+        let flag = arr
+          .map(function (e) {
+            return e.name;
+          })
+          .indexOf(data.name);
+
+        let idWork_space = arr.find((c) => c.name === data.name);
+
+        if (flag != -1) {
           if (uerMember.listIdBroad.includes(dataIdbroad._id)) {
             console.log(2);
             return res
@@ -185,7 +197,7 @@ export class UserController {
             uerMember.listIdBroad.push(dataIdbroad._id);
             uerMember.save();
             let workspaceMember = await WorkSpace.findById({
-              _id: uerMember.listIdWorkSpace[index],
+              _id: idWork_space._id,
             });
             workspaceMember.id_listIdBroad.push(dataIdbroad._id);
             workspaceMember.save();
@@ -269,14 +281,6 @@ export class UserController {
       if (broad.useId.length > 0) {
         let flag = false;
         for (let index = 0; index < broad.useId.length; index++) {
-          console.log(
-            "🚀 ~ file: user.controller.ts ~ line 209 ~ UserController ~ sendEmail ~ broad.useId[index].email === emailAdmin",
-            broad.useId[index].email
-          );
-          console.log(
-            "🚀 ~ file: user.controller.ts ~ line 209 ~ UserController ~ sendEmail ~ emailAdmin",
-            emailAdmin
-          );
           if (broad.useId[index].email == emailAdmin) {
             flag = true;
             break;
@@ -385,16 +389,34 @@ export class UserController {
           console.log(1);
           work_space.id_listIdBroad.splice(index, 1);
           work_space.save();
-          return res.status(200).json({ message: "delete thanh cong" });
+          break;
         }
       }
+      for (let index = 0; index < user.listIdBroad.length; index++) {
+        if (idboard === user.listIdBroad[index]) {
+          user.listIdBroad.splice(index, 1);
+          user.save();
+          break;
+        }
+      }
+      return res.status(200).json({ message: "delete thanh cong" });
     } else {
       console.log(2);
-      let user = await Users.findOneAndUpdate(
-        { email: emailUser },
-        { listIdWorkSpace: [], listIdBroad: [] }
-      );
-      await WorkSpace.findByIdAndDelete(idWorkSpace);
+      // let user = await Users.findOneAndUpdate(
+      //   { email: emailUser },
+      //   { listIdWorkSpace: [], listIdBroad: [] }
+      // );
+      await WorkSpace.deleteOne({ _id: idWorkSpace });
+
+      // for (let index = 0; index < user.listIdWorkSpace.length; index++) {
+      //   if (idWorkSpace === user.listIdWorkSpace[index]) {
+      //     user.listIdWorkSpace.splice(index, 1);
+      //     break;
+      //   }
+      // }
+      let a = user.listIdBroad.indexOf(idboard);
+      user.listIdBroad.splice(a, 1);
+      user.save();
       return res.status(200).json({ message: "delete thanh cong" });
     }
   }

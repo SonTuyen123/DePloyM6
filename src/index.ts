@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 import authRouter from "./router/auth.router";
 import userRouter from "./router/user.router";
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 
 const app = express();
 app.use(cors());
