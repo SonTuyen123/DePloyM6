@@ -392,13 +392,9 @@ export class UserController {
           break;
         }
       }
-      for (let index = 0; index < user.listIdBroad.length; index++) {
-        if (idboard === user.listIdBroad[index]) {
-          user.listIdBroad.splice(index, 1);
-          user.save();
-          break;
-        }
-      }
+      let a = user.listIdBroad.indexOf(idboard);
+      user.listIdBroad.splice(a, 1);
+      user.save();
       return res.status(200).json({ message: "delete thanh cong" });
     } else {
       console.log(2);
