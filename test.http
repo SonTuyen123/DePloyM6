@@ -1,0 +1,37 @@
+POST http://localhost:8080/broad
+Content-Type: application/json
+
+{
+   "name":"tuyen",
+   "email":"admin@gmail.com",
+   "password":"123123" ,
+   "confirmpassword":"123123"
+}
+###
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+   "email":"tuyen1@gmail.com",
+   "password":"123123"
+
+}
+###
+POST http://localhost:8080/user/test
+Content-Type: application/json
+
+{
+ "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQ…4Mjh9.FLjWcPd7XRCG4IOrHKprx4gzHzKt5wk9rALP_us3B6s"
+}   
+
+###
+POST http://localhost:8080/token
+Content-Type: application/json
+
+{
+   "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQmV2ZXJseSBMbG95ZCIsInBhc3N3b3JkIjoiJDJiJDEwJDIuank2Y1d5QmxzbWc5Lzh2ZVlLOU9wSnB3WmdDTDNLcHQ3M0c0NVNYSndYTjlVL3UuRWlPIiwiaWF0IjoxNjY3NDA2NzIyLCJleHAiOjE2Njc0MDcwMjJ9.af13Zrv6Ja6SmIxR9C9E7LwRvWnyeheSp-FV4I2USL0"
+}
+
+
+
+
