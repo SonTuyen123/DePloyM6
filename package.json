@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16.15.0",
+    "npm": "8.5.5"
+  },
   "scripts": {
     "build": "npx tsc",
     "start": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/index.js\"",
